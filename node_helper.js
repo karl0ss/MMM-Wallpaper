@@ -373,7 +373,7 @@ module.exports = NodeHelper.create({
         if (config.shuffle) {
           body.photos = shuffle(body.photos);
         }
-        self.iCloudPhotos = body.photos.filter((p) => p != null && p.mediaAssetType !== "video").slice(0, config.maximumEntries);
+        self.iCloudPhotos = body.photos.filter((p) => p != null).slice(0, config.maximumEntries);
         self.iCloudState = "webasseturls";
 
         var photoGuids = self.iCloudPhotos.map((p) => { return p.photoGuid; });
@@ -410,7 +410,7 @@ module.exports = NodeHelper.create({
         for (var i in p.derivatives) {
           var d = p.derivatives[i];
 
-          if (+d.width > 0) {
+          if (+d.width > 0 && i != "PosterFrame") {
             result.variants.push({
               url: d.url,
               width: +d.width,
