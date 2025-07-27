@@ -39,6 +39,28 @@ modules: [
 ]
 ````
 
+### URL Array Example
+
+To cycle through multiple URLs:
+````javascript
+modules: [
+  {
+    module: "MMM-Wallpaper",
+    position: "fullscreen_below",
+    config: {
+      source: [
+        "https://example.com/image1.jpg",
+        "https://example.com/image2.jpg",
+        "https://example.com/image3.jpg"
+      ],
+      slideInterval: 30 * 1000, // Change every 30 seconds
+      shuffle: true, // Randomize order
+      addCacheBuster: true // Add timestamp to prevent caching
+    }
+  }
+]
+````
+
 ## Configuration options
 
 The following properties can be configured:
@@ -73,6 +95,7 @@ The following properties can be configured:
 |`"firetv"`|Cycles through random selections of the FireTV wallpapers.|
 |`"flickr-api:<source>"`|Cycles through random selections of the specified flickr photos.  See below for details.|
 |`"http(s)://url"`|Reloads the specified url at the configured interval.|
+|`["http(s)://url1", "http(s)://url2", ...]`|Cycles through an array of URLs. Uses `shuffle` and `slideInterval` config options to control cycling behavior.|
 |`"icloud:<album id>"`|Cycles through random selections of the specified album.|
 |`"lightroom:<user.myportfolio.com/album>"`|Cycles through random selections of the specified album.|
 |`"local:</path/to/directory>"`|Cycles through random selections of the images in the specified local directory.|

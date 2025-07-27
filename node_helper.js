@@ -96,14 +96,26 @@ module.exports = NodeHelper.create({
     } else if (source.startsWith("local:")) {
       self.readdir(config);
     } else if (source.startsWith("http://") || source.startsWith("https://")) {
-      let url = config.source;
-      if (config.addCacheBuster) {
-        url = `${url}${(url.indexOf("?") != -1) ? "&" : "?"}mmm-wallpaper-ts=${Date.now()}`;
+      // Handle both single URLs and arrays of URLs
+      let urls = Array.isArray(config.source) ? config.source : [config.source];
+      let images = [];
+      
+      for (let sourceUrl of urls) {
+        let url = sourceUrl;
+        if (config.addCacheBuster) {
+          url = `${url}${(url.indexOf("?") != -1) ? "&" : "?"}mmm-wallpaper-ts=${Date.now()}`;
+        }
+        images.push({
+          url: url,
+          caption: sourceUrl,
+        });
       }
-      self.cacheResult(config, [{
-        url: url,
-        caption: config.source,
-      }]);
+      
+      if (config.shuffle) {
+        images = shuffle(images);
+      }
+      
+      self.cacheResult(config, images);
     } else if (source.startsWith("/r/")) {
       self.request(config, {
         url: `https://www.reddit.com${config.source}/hot.json`,
