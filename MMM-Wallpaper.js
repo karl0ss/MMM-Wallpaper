@@ -128,7 +128,13 @@ Module.register("MMM-Wallpaper", {
            (!Array.isArray(self.config.source) && self.config.source === payload.source)))
       {
         self.images = payload.images.slice(0, self.config.maximumEntries);
-        self.imageIndex = self.imageIndex % (self.images.length || 1);
+        
+        // Pick a random image index when new wallpapers are received
+        if (self.images.length > 0) {
+          self.imageIndex = Math.floor(Math.random() * self.images.length);
+        } else {
+          self.imageIndex = 0;
+        }
 
         if (self.imageElement === null && self.images.length > 0) {
           self.loadNextImage();
@@ -244,7 +250,8 @@ Module.register("MMM-Wallpaper", {
       self.nextImageElement = null;
     }
 
-    self.imageIndex = (self.imageIndex + 1) % self.images.length;
+    // Pick a random image from the list instead of incrementing the index
+    self.imageIndex = Math.floor(Math.random() * self.images.length);
 
     const nextImageData = self.images[self.imageIndex];
     if (nextImageData !== null) {
