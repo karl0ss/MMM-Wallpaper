@@ -1,4 +1,25 @@
 // MMM-Wallpaper.js
+//
+// Supported source types:
+// - "bing" (default): Bing image of the day
+// - "firetv": Amazon Fire TV screensaver images
+// - "chromecast": Google Chromecast backdrop images
+// - "local:path/to/directory": Local directory of images
+// - "http://example.com/image.jpg": Direct URL to an image
+// - "/r/subreddit": Images from a subreddit
+// - "/user/username": Images from a Reddit user
+// - "pexels": Images from Pexels (requires pexels_key)
+// - "icloud:album": Images from an iCloud shared album
+// - "flickr-api:source": Images from Flickr API (requires flickrApiKey)
+// - "lightroom:url": Images from a Lightroom web gallery
+// - "synology-moments:url": Images from a Synology Moments shared album
+// - "metmuseum:dept,highlight,query": Images from the Metropolitan Museum of Art
+// - "nasa:search_term": Images from NASA Image and Video Library
+// - "apod" or "apodhd": NASA Astronomy Picture of the Day
+// - "artgen:base_url": Images from a custom API that returns a list of image filenames
+//   Example: "artgen:http://192.168.4.10:8088/"
+//   This will fetch a list of image filenames from http://192.168.4.10:8088/favourites
+//   and create URLs in the format http://192.168.4.10:8088/images/filename
 
 Module.register("MMM-Wallpaper", {
   // Default module config

@@ -83,7 +83,9 @@ module.exports = NodeHelper.create({
     }
 
     var source = config.source.toLowerCase();
-    if (source === "firetv") {
+    if (source.startsWith("artgen:")) {
+      self.fetchArtgenImages(config);
+    } else if (source === "firetv") {
       if (self.firetv === null) {
         self.firetv = JSON.parse(fs.readFileSync(`${__dirname}/firetv.json`));
       }
@@ -843,5 +845,44 @@ module.exports = NodeHelper.create({
     }
 
     return self.cache[key];
+  },
+
+  fetchArtgenImages: function(config) {
+    var self = this;
+    var baseUrl = config.source.substring(7).trim(); // Remove "artgen:" prefix
+    
+    // Ensure the base URL ends with a slash
+    if (!baseUrl.endsWith('/')) {
+      baseUrl += '/';
+    }
+    
+    // Fetch the list of favorites from the API
+    fetch(`${baseUrl}favourites`)
+      .then(response => response.json())
+      .then(data => {
+        if (!Array.isArray(data)) {
+          console.error("MMM-Wallpaper: Artgen API did not return an array of images");
+          return;
+        }
+        
+        // Create image objects from the filenames
+        var images = data.map(filename => {
+          return {
+            url: `${baseUrl}images/${filename}`,
+            caption: filename
+          };
+        });
+        
+        // Apply shuffle if configured
+        if (config.shuffle) {
+          images = shuffle(images);
+        }
+        
+        // Cache the result
+        self.cacheResult(config, images);
+      })
+      .catch(error => {
+        console.error(`MMM-Wallpaper: Error fetching artgen images: ${error.message}`);
+      });
   },
 });
