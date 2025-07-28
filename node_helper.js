@@ -873,6 +873,12 @@ module.exports = NodeHelper.create({
           };
         });
         
+        // Inject image.png into the list of images
+        images.unshift({
+          url: `${baseUrl}images/image.png`,
+          caption: "image.png"
+        });
+        
         // Apply shuffle if configured
         if (config.shuffle) {
           images = shuffle(images);
