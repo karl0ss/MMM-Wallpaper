@@ -166,6 +166,9 @@ Module.register("MMM-Wallpaper", {
     var self = this;
 
     return () => {
+      // Log the image that is being loaded
+      console.log(`MMM-Wallpaper: Loaded image ${imageData.caption || imageData.url}`);
+      
       self.resetLoadImageTimer();
 
       element.className = `wallpaper ${self.config.crossfade ? "crossfade-image" : ""}`;
